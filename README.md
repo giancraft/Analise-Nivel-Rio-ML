@@ -1,0 +1,1 @@
+O app.py tem uma API em python com flask que é necessária para utilizar a aplicação web pra testar a previsão. Pra utilizar, basta rodar o arquivo em python normal e pegar a URL que ele mandar para acessar a página web e testar a previsão
