@@ -6,8 +6,8 @@
     <title>Previsão do Nível do Rio - Rio do Sul</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,19 +18,24 @@
             background: white;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 500px;
             width: 90%;
+            border-top: 5px solid #007bff;
         }
         h1 {
             color: #333;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            color: #666;
+            margin-bottom: 1.5rem;
         }
         form {
             display: flex;
             flex-direction: column;
             gap: 1rem;
-            margin-top: 1.5rem;
         }
         .form-group {
             display: grid;
@@ -61,11 +66,23 @@
         button:hover {
             background-color: #0056b3;
         }
-        .prediction-result {
+        .result-container {
             margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+        .prediction-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #333;
+        }
+        /* --- MUDANÇA AQUI --- */
+        /* Removemos a cor do seletor .status-text, pois será aplicada inline */
+        .status-text {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #28a745;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -77,7 +94,6 @@
         <form action="{{ url_for('predict') }}" method="post">
             <div class="form-group">
                 <label for="nivel_itp">Nível Ituporanga (cm):</label>
-                <!-- O atributo 'name' deve corresponder ao nome da coluna no DataFrame original ANTES do scaler -->
                 <input type="number" step="any" id="nivel_itp" name="nivel_ituporanga" required>
             </div>
             
@@ -99,9 +115,16 @@
             <button type="submit">Prever Nível</button>
         </form>
 
-        <div class="prediction-result">
-            {{ prediction_text }}
+        {% if prediction_text %}
+        <div class="result-container">
+            <div class="prediction-text">{{ prediction_text }}</div>
+            <!-- --- MUDANÇA AQUI --- -->
+            <!-- Adicionamos o atributo style diretamente no elemento div -->
+            <div class="status-text" style="color: {{ status_color|default('black') }};">
+                {{ status_text }}
+            </div>
         </div>
+        {% endif %}
     </div>
 </body>
 </html>
