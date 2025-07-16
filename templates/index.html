@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Nível do Rio - Rio do Sul</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 0.75rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .prediction-result {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Previsão do Nível do Rio do Sul</h1>
+        <p>Insira os dados das estações para prever o nível do rio.</p>
+
+        <form action="{{ url_for('predict') }}" method="post">
+            <div class="form-group">
+                <label for="nivel_itp">Nível Ituporanga (cm):</label>
+                <!-- O atributo 'name' deve corresponder ao nome da coluna no DataFrame original ANTES do scaler -->
+                <input type="number" step="any" id="nivel_itp" name="nivel_ituporanga" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="chuva_itp">Chuva Ituporanga (mm):</label>
+                <input type="number" step="any" id="chuva_itp" name="chuva_ituporanga" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nivel_taio">Nível Taió (cm):</label>
+                <input type="number" step="any" id="nivel_taio" name="nivel_taio" required>
+            </div>
+
+            <div class="form-group">
+                <label for="chuva_taio">Chuva Taió (mm):</label>
+                <input type="number" step="any" id="chuva_taio" name="chuva_taio" required>
+            </div>
+
+            <button type="submit">Prever Nível</button>
+        </form>
+
+        <div class="prediction-result">
+            {{ prediction_text }}
+        </div>
+    </div>
+</body>
+</html>
